@@ -14,14 +14,11 @@ public class MainButtonManager : MonoBehaviour
     public Button eixt;
     public GameObject mainScreen_Login_BackGround;
 
-
-    public InputField id_input;
-    public InputField password_input;
     public Text loginStatuText;
 
     public string token;
 
-    public const string apiUrl = "노드 주소 이따가 써야됨";
+    public const string apiUrl = "http://localhost:3030";
 
     public InputField[] inputField;
     // Start is called before the first frame update
@@ -55,7 +52,12 @@ public class MainButtonManager : MonoBehaviour
     }
     public void Login()
     {
-        StartCoroutine(AttempLogin(id_input.text, password_input.text));
+        if(inputField[0].text.Length == 0 || inputField[1].text.Length == 0)
+        {
+            loginStatuText.text = "아이디 또는 비밀번호를 입력하지 않았습니다.";
+            return;
+        }
+        StartCoroutine(AttempLogin(inputField[0].text, inputField[1].text));
     }
     IEnumerator AttempLogin(string id, string password)
     {
@@ -69,7 +71,7 @@ public class MainButtonManager : MonoBehaviour
 
             if(webRequest.result != UnityWebRequest.Result.Success)
             {
-                loginStatuText.text = "로그인에 실패 : " + webRequest.error;
+                    loginStatuText.text = "아이디 혹은 비밀번호가 틀렸습니다.";
             }
             else
             {
@@ -78,6 +80,70 @@ public class MainButtonManager : MonoBehaviour
                 var responseData = JsonConvert.DeserializeObject<ResponseData>(responseText);
                 token = responseData.token;
 
+                if (string.IsNullOrEmpty(token))
+                {
+                    Debug.LogError("Token is missing");
+                    yield break;
+                }
+
+                SendAytienticatedRequest("/LeeHan/protected");
+
+            }
+        }
+    }
+    public void SendAytienticatedRequest(string endpoint)
+    {
+        if (string.IsNullOrEmpty(token))
+        {
+            Debug.LogError("Token is missing");
+            return;
+        }
+
+        UnityWebRequest www = UnityWebRequest.Get(apiUrl + endpoint);
+        www.SetRequestHeader("Authorization", token);
+
+        StartCoroutine(SendRequest(www));
+    }
+    IEnumerator SendRequest(UnityWebRequest webRequest)
+    {
+        yield return webRequest.SendWebRequest();
+
+        if(webRequest.result == UnityWebRequest.Result.ConnectionError ||
+            webRequest.result == UnityWebRequest.Result.ProtocolError)
+        {
+            Debug.Log("서버 통신 에러" + webRequest.downloadHandler.text);
+        }
+        else
+        {
+            Debug.Log("Request 성공" + webRequest.downloadHandler.text);
+        }
+    }
+    public void SignUp()
+    {
+        StartCoroutine(AttempSignUp(inputField[0].text, inputField[1].text));
+    }
+    IEnumerator AttempSignUp(string id, string password)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("id", id);
+        form.AddField("password", password);
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(apiUrl + "/LeeHan/sign_up", form))
+        {
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result != UnityWebRequest.Result.Success)
+            {
+                Protocols.Packets.common res = JsonConvert.DeserializeObject<Protocols.Packets.common>(webRequest.downloadHandler.text);
+                loginStatuText.text = res.message;
+            }
+            else
+            {
+                string responseText = webRequest.downloadHandler.text;
+                Protocols.Packets.common res = JsonConvert.DeserializeObject<Protocols.Packets.common>(webRequest.downloadHandler.text);
+                var responseData = JsonConvert.DeserializeObject<ResponseData>(responseText);
+                loginStatuText.text = res.message;
+                token = responseData.token;
             }
         }
     }
