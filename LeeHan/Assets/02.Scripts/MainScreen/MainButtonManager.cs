@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
-using Newtonsoft.Json;
-
+using Newtonsoft.Json;                  
+                        //계정에 따른 캐릭터 보유나 캐릭터 데이터는 DB에 저장해놓고 불러온다?? 참고 자료 "알만툴 기초 강의 33Json 파일"
 public class MainButtonManager : MonoBehaviour
 {
     public Button login;
@@ -28,10 +28,6 @@ public class MainButtonManager : MonoBehaviour
         {
             mainScreen_Login_BackGround.SetActive(false);
         }
-        this.send.onClick.AddListener(() =>
-        {
-
-        });
     }
 
     // Update is called once per frame
@@ -120,7 +116,10 @@ public class MainButtonManager : MonoBehaviour
     }
     public void SignUp()
     {
-        StartCoroutine(AttempSignUp(inputField[0].text, inputField[1].text));
+        if(SignUpCondition())       //집가서 아이디 또는 비밀번호 생성 조건을 만들자
+        {
+            StartCoroutine(AttempSignUp(inputField[0].text, inputField[1].text));
+        }
     }
     IEnumerator AttempSignUp(string id, string password)
     {
@@ -165,5 +164,9 @@ public class MainButtonManager : MonoBehaviour
     public void Exit()
     {
         Application.Quit();
+    }
+    public bool SignUpCondition()
+    {
+        return true;
     }
 }
