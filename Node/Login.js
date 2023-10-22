@@ -2,6 +2,27 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const app = express();
+require('dotenv').config();  
+
+const mysql = require('mysql');
+
+const connection = mysql.createConnection({
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+});
+
+connection.connect((err) => {
+    if(err){
+        console.error("MYSQL 연결 오류 : " + err.stack);
+        return;
+    }
+
+    console.log("연결되었슴다. 연결 ID : " + connection.threadId);
+
+});
 //npm해야될거 , init -y, install express, install package.json, i jsonwebtoken
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(bodyParser.json());
@@ -48,25 +69,30 @@ app.get('/LeeHan/protected', verifyToken, (req, res) =>{
 });
 
 
-const PORT = process.env.PORT || 3030;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT , ()=>{
-    console.log('server is running on port 3030');
+    console.log(PORT);
+    console.log('server is running on port 3000');
 });
 
-app.post('/LeeHan/sign_up', (req, res)=>{
-    const {id, password} = req.body;
+app.post('/LeeHan/sign_up', (req, res) => {
+    const { id, password } = req.body;
+    console.log(id, password);
+    // 사용자가 이미 존재하는지 확인
+    // MySQL 데이터베이스에 사용자 정보 삽입
+    connection.query('INSERT INTO leehan_account (id, password) VALUES (?, ?)', [id, password], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ message: '이미 존재하는 계정입니다.' });
+        }
+        res.status(200).json({ message: '회원가입에 성공하였습니다.' });
+    });
 
-    const user = users.find(u => u.id === id);
-    
-    if(user){
-        res.status(409).json({message : '이미 존재하는 계정입니다.'});
-    }
-    else{   
-        //객체를 만들 때 양식을 지켜줘서 만들어야됨 
-        //const user = users.find(u => u.id === id) 이렇게 돼있어서
-        users.push({id: id, password: password});
-        res.status(200).json({message : '회원가입에 성공하였습니다.'});
-    }
-    console.log(user);
-    console.log(users);
+    connection.end((err) => {
+        if(err){
+            console.error('MYSQL 연결 종료 오류 : ' + err.stack);
+            return;
+        }
+        console.log('MySQL 연결이 성공적으로 종료되었습니다.');
+    });
 });

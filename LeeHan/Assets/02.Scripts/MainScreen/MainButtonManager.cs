@@ -18,7 +18,7 @@ public class MainButtonManager : MonoBehaviour
 
     public string token;
 
-    public const string apiUrl = "http://localhost:3030";
+    public const string apiUrl = "http://localhost:3000";
 
     public InputField[] inputField;
     // Start is called before the first frame update
