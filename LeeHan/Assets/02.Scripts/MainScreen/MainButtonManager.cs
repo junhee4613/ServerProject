@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
-using Newtonsoft.Json;                  
+using Newtonsoft.Json;
+using UnityEngine.SceneManagement;
                         //계정에 따른 캐릭터 보유나 캐릭터 데이터는 DB에 저장해놓고 불러온다?? 참고 자료 "알만툴 기초 강의 33Json 파일"
 public class MainButtonManager : MonoBehaviour
 {
@@ -64,13 +65,14 @@ public class MainButtonManager : MonoBehaviour
         using(UnityWebRequest webRequest = UnityWebRequest.Post(apiUrl + "/LeeHan/login", form))
         {
             yield return webRequest.SendWebRequest();
-
-            if(webRequest.result != UnityWebRequest.Result.Success)
+            if (webRequest.result != UnityWebRequest.Result.Success)
             {
-                    loginStatuText.text = "아이디 혹은 비밀번호가 틀렸습니다.";
+                Protocols.Packets.common res = JsonConvert.DeserializeObject<Protocols.Packets.common>(webRequest.downloadHandler.text);
+                loginStatuText.text = res.message;
             }
             else
             {
+                Debug.Log(webRequest.downloadHandler.text);
                 loginStatuText.text = "로그인 성공!";
                 string responseText = webRequest.downloadHandler.text;
                 var responseData = JsonConvert.DeserializeObject<ResponseData>(responseText);
@@ -112,6 +114,7 @@ public class MainButtonManager : MonoBehaviour
         else
         {
             Debug.Log("Request 성공" + webRequest.downloadHandler.text);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
     public void SignUp()
