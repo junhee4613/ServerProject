@@ -19,7 +19,7 @@ public class MainButtonManager : MonoBehaviour
 
     public string token;
 
-    public const string apiUrl = "http://localhost:3000";
+    public const string apiUrl = "https://port-0-node-express-230927-jvpb2alnb1xslw.sel5.cloudtype.app";
 
     public InputField[] inputField;
     // Start is called before the first frame update
@@ -67,6 +67,7 @@ public class MainButtonManager : MonoBehaviour
             yield return webRequest.SendWebRequest();
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
+                Debug.Log(webRequest.downloadHandler.text);
                 Protocols.Packets.common res = JsonConvert.DeserializeObject<Protocols.Packets.common>(webRequest.downloadHandler.text);
                 loginStatuText.text = res.message;
             }
