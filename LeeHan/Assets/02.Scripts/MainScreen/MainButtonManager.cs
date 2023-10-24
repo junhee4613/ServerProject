@@ -146,7 +146,6 @@ public class MainButtonManager : MonoBehaviour
                 Protocols.Packets.common res = JsonConvert.DeserializeObject<Protocols.Packets.common>(webRequest.downloadHandler.text);
                 var responseData = JsonConvert.DeserializeObject<ResponseData>(responseText);
                 loginStatuText.text = res.message;
-                token = responseData.token;
             }
         }
     }
