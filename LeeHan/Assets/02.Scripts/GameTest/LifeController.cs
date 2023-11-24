@@ -5,7 +5,7 @@ using UnityEngine;
 public class LifeController : MonoBehaviour
 {
     public static LifeController instance;
-
+    GameManager GameManager => GameManager.instance;
     private void Awake()
     {
         instance = this;
@@ -45,6 +45,7 @@ public class LifeController : MonoBehaviour
         }
         else
         {
+            GameManager.game_over();
             currentLives = 0;
         }
 

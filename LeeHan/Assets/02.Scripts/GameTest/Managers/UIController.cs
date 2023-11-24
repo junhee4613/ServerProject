@@ -32,6 +32,11 @@ public class UIController : MonoBehaviour
     {
        
         time_record.text = GameManager.time.ToString("F2") + "초";
+        if(restart_button == null)
+        {
+            Debug.Log("널이다");
+
+        }
     }
 
     public void UpdateHealthDisplay(int health , int maxHealth)
@@ -58,7 +63,10 @@ public class UIController : MonoBehaviour
     }
     public void Restart_Button()
     {
-        restart_button.gameObject.SetActive(true);
+        if(restart_button != null)
+        {
+            restart_button.gameObject.SetActive(true);
+        }
     }
     public void UpdateLivesDisplay(int currentLives)       // 플레이어 목숨 텍스트로 표현 
     {

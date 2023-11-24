@@ -63,7 +63,6 @@ public class PlayerHealthController : MonoBehaviour
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
-                GameManager.game_over();
                 gameObject.SetActive(false);
                 LifeController.instance.Respawn();      //플레이어 리스폰
             }
