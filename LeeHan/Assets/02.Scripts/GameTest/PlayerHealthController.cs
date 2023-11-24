@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerHealthController : MonoBehaviour
 {
     public static PlayerHealthController instance;
-
+    GameManager GameManager => GameManager.instance;
     private void Awake()
     {
         instance = this;
@@ -61,15 +61,13 @@ public class PlayerHealthController : MonoBehaviour
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
-
+                GameManager.game_over();
                 gameObject.SetActive(false);
             }
             else
             {
                 invincibilityCounter = invincibilityLength;
-
                 theSR.color = fadeColor;
-
                 thePlayer.KnockBack();
             }
 
