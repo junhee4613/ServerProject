@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;   
 
@@ -12,7 +13,9 @@ public class UIController : MonoBehaviour
     }
     public Image[] heartIcons;
 
-    public Sprite heartFull, heartEmpty; 
+    public Sprite heartFull, heartEmpty;
+
+    public TMP_Text livesText;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,4 +50,10 @@ public class UIController : MonoBehaviour
 
         }
     }
+
+    public void UpdateLivesDisplay(int currentLives )       // 플레이어 목숨 텍스트로 표현 
+    {
+        livesText.text = currentLives.ToString();
+    }
+
 }

@@ -5,16 +5,16 @@ using UnityEngine;
 public class CheckPoint : MonoBehaviour
 {
     private bool isActive;
-    public Animator anim;
+    public Animator anim;   //깃발 애니메이션
 
-    [HideInInspector]
+    [HideInInspector]   
     public CheckPointManager cpMan;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player" && isActive == false)
+        if (other.tag == "Player" && isActive == false)     //비활성화 상태일떄 플레이어와 닿으면 깃발 애니메이션 실행
         {
-            cpMan.SetActiveCheckpoint(this);
+            cpMan.SetActiveCheckpoint(this);                //체크포인트 SetActiveCheckpoint 실행
 
 
             anim.SetBool("flagActive", true);
@@ -23,7 +23,7 @@ public class CheckPoint : MonoBehaviour
         }
     }
 
-    public void DeactivateCheckpoint()
+    public void DeactivateCheckpoint()      //체크포인트 애니메이션 상태관리
     {
         anim.SetBool("flagActive", false);
         isActive = false;
