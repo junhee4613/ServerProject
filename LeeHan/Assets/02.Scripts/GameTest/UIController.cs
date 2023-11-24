@@ -11,6 +11,8 @@ public class UIController : MonoBehaviour
         instance = this;
     }
     public Image[] heartIcons;
+
+    public Sprite heartFull, heartEmpty; 
     // Start is called before the first frame update
     void Start()
     {
@@ -23,15 +25,24 @@ public class UIController : MonoBehaviour
         
     }
 
-    public void UpdateHealthDisplay(int health)
+    public void UpdateHealthDisplay(int health , int maxHealth)
     {
         for (int i = 0; i < heartIcons.Length; i++)
         {
             heartIcons[i].enabled = true;
 
-            if (health <= i)
+            if (health > i)
             {
-                heartIcons[i].enabled = false;
+                heartIcons[i].sprite = heartFull;
+            }
+            else
+            {
+                heartIcons[i].sprite = heartEmpty;
+
+                if (maxHealth <= i)
+                {
+                    heartIcons[i].enabled = false;
+                }
             }
 
         }

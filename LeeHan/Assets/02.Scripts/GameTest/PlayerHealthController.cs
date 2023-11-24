@@ -12,31 +12,63 @@ public class PlayerHealthController : MonoBehaviour
     }
 
     public int currentHealth, maxHealth;
+
+    public float invincibilityLength = 1f;
+    private float invincibilityCounter;
+
+    public SpriteRenderer theSR;
+    public Color normalColor, fadeColor;
+
+    private PlayerController thePlayer;
     // Start is called before the first frame update
     void Start()
     {
+        thePlayer = GetComponent<PlayerController>();
+
         currentHealth = maxHealth;
 
-        UIController.instance.UpdateHealthDisplay(currentHealth);
+        UIController.instance.UpdateHealthDisplay(currentHealth, maxHealth);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (invincibilityCounter > 0)
+        {
+            invincibilityCounter -= Time.deltaTime;
+
+            if (invincibilityCounter <= 0)
+            {
+                theSR.color = normalColor;
+            }
+        }
     }
 
     public void DamagePlayer()
     {
-        currentHealth--;
-
-        if (currentHealth <= 0)
+        if (invincibilityCounter <= 0)
         {
-            currentHealth = 0;
 
-            gameObject.SetActive(false);
+            currentHealth--;
+
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                invincibilityCounter = invincibilityLength;
+
+                theSR.color = fadeColor;
+
+                thePlayer.KnockBack();
+            }
+
+            UIController.instance.UpdateHealthDisplay(currentHealth, maxHealth);
         }
-        UIController.instance.UpdateHealthDisplay(currentHealth);
+
     }
 }
