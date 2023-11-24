@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TreelineMover : MonoBehaviour
 {
-    public float maxDistance = 22f;
+    public float maxDistance = 30f;
 
     // Start is called before the first frame update
     void Start()
