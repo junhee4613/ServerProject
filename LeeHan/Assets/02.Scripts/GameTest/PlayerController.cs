@@ -71,7 +71,8 @@ public class PlayerController : MonoBehaviour
                         Jump();
                         canDoubleJump = false;
 
-                        anim.SetBool("isDoubleJumping", true);
+                        // anim.SetBool("isDoubleJumping", true);
+                        anim.SetTrigger("doDoubleJump");
                     }
                 }
             }
