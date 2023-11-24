@@ -8,7 +8,7 @@ public class DamagePlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        healthController = FindAnyObjectByType<PlayerHealthController>();
+        healthController = FindAnyObjectByType<PlayerHealthController>();  //PlayerHealthController 형식의 객체를 찾아서 할당
     }
 
     // Update is called once per frame
@@ -17,17 +17,11 @@ public class DamagePlayer : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)  //충돌 인식
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player"))                 //플레이어 태그를 가진 오브젝트와 충돌시 데미지를 준다
          {
-            //other.gameObject.SetActive(false);
-
-            //FindFirstObjectByType<PlayerHealthController>().DamagePlayer();
-
-            // healthController.DamagePlayer();
-
-            PlayerHealthController.instance.DamagePlayer();
+            PlayerHealthController.instance.DamagePlayer();      //플레이어에게 데미지를 준다
         }
 
 
