@@ -65,8 +65,6 @@ public class PlayerHealthController : MonoBehaviour
                 currentHealth = 0;
                 GameManager.game_over();
                 gameObject.SetActive(false);
-
-
                 LifeController.instance.Respawn();      //플레이어 리스폰
             }
             else
@@ -95,6 +93,7 @@ public class PlayerHealthController : MonoBehaviour
         UIController.instance.UpdateHealthDisplay(currentHealth, maxHealth);
 
     }
+
 
 
 
