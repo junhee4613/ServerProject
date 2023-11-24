@@ -15,7 +15,10 @@ public class PlayerHealthController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = maxHealth; 
+        currentHealth = maxHealth;
+
+        UIController.instance.UpdateHealthDisplay(currentHealth);
+
     }
 
     // Update is called once per frame
@@ -34,5 +37,6 @@ public class PlayerHealthController : MonoBehaviour
 
             gameObject.SetActive(false);
         }
+        UIController.instance.UpdateHealthDisplay(currentHealth);
     }
 }
