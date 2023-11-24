@@ -43,6 +43,12 @@ public class PlayerHealthController : MonoBehaviour
                 theSR.color = normalColor;
             }
         }
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            AddHealth(1);
+        }
+#endif
     }
 
     public void DamagePlayer()
@@ -71,4 +77,21 @@ public class PlayerHealthController : MonoBehaviour
         }
 
     }
+
+    public void AddHealth(int amountToAdd)
+    {
+        currentHealth += amountToAdd;
+
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        UIController.instance.UpdateHealthDisplay(currentHealth, maxHealth);
+
+    }
+
+
+
+
 }
