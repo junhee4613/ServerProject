@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerHealthController : MonoBehaviour
 {
+    GameManager GameManager => GameManager.instance;
     public static PlayerHealthController instance;      //클래스의 모든 인스턴스가 동일한 값을 공유 
 
     private void Awake() //PlayerHealthController의 인스턴스에 쉽게 접근할 수 있도록 한다
@@ -62,15 +63,15 @@ public class PlayerHealthController : MonoBehaviour
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
-
-
+                GameManager.game_over();
+                gameObject.SetActive(false);
                 LifeController.instance.Respawn();      //플레이어 리스폰
             }
             else
             {
                 invincibilityCounter = invincibilityLength;
-
                 theSR.color = fadeColor;
+                thePlayer.KnockBack();
 
                 thePlayer.KnockBack();          //플레이어 넉백
             }
@@ -92,6 +93,7 @@ public class PlayerHealthController : MonoBehaviour
         UIController.instance.UpdateHealthDisplay(currentHealth, maxHealth);
 
     }
+
 
 
 

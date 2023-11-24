@@ -39,9 +39,6 @@ public class PlayerController : MonoBehaviour
 
         if (knockbackCounter <= 0)
         {
-
-
-
             activeSpeed = moveSpeed;
             if (Input.GetKey(KeyCode.LeftShift))  //플레이어 달리기
             {
