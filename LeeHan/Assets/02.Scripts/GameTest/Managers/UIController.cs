@@ -9,7 +9,8 @@ public class UIController : MonoBehaviour
 {
     public static UIController instance;
     public Button restart_button;
-    public Text time_record;
+    public Text time_record_text;
+    public Text maximum_record_text;
     GameManager GameManager => GameManager.instance;
     private void Awake()
     {
@@ -30,8 +31,8 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-        time_record.text = GameManager.time.ToString("F2") + "초";
+
+        time_record_text.text = GameManager.time.ToString("F2") + "초";
         if(restart_button == null)
         {
             Debug.Log("널이다");

@@ -15,11 +15,18 @@ public class MainButtonManager : MonoBehaviour
     public Button eixt;
     public GameObject mainScreen_Login_BackGround;
 
+    public GameObject name_window;
+    public InputField player_name_field;
+    public Button name_decide;
+    public Text player_name_status;
+    GameManager GameManager => GameManager.instance;
+
     public Text loginStatuText;
 
     public string token;
 
     public const string apiUrl = "https://port-0-leehan-node-20231014-jvpb2alnb1xslw.sel5.cloudtype.app";
+    //public const string apiUrl = "http://localhost:3000";
 
     public InputField[] inputField;
     // Start is called before the first frame update
@@ -29,6 +36,10 @@ public class MainButtonManager : MonoBehaviour
         {
             mainScreen_Login_BackGround.SetActive(false);
         }
+        name_decide.onClick.AddListener(() =>
+        {
+            StartCoroutine(Name_decide());
+        });
     }
 
     // Update is called once per frame
@@ -44,6 +55,40 @@ public class MainButtonManager : MonoBehaviour
 
                 inputField[nextIndex].Select();
                 inputField[nextIndex].ActivateInputField();
+            }
+        }
+    }
+    public IEnumerator Name_decide()
+    {
+        if (string.IsNullOrEmpty(player_name_field.text))
+        {
+            player_name_status.text = "사용하실 이름을 입력하시지 않으셨습니다.";
+        }
+        else
+        {
+            WWWForm form = new WWWForm();
+            form.AddField("id", GameManager.sendData.id);
+            form.AddField("player_name", player_name_field.text) ;
+
+            using (UnityWebRequest webRequest = UnityWebRequest.Post(apiUrl + "/LeeHan/name_decide", form))
+            {
+                yield return webRequest.SendWebRequest();
+
+                if (webRequest.result != UnityWebRequest.Result.Success)
+                {
+                    Protocols.Packets.common res = JsonConvert.DeserializeObject<Protocols.Packets.common>(webRequest.downloadHandler.text);
+                    loginStatuText.text = res.message;
+                }
+                else
+                {
+                    string responseText = webRequest.downloadHandler.text;
+                    Protocols.Packets.common res = JsonConvert.DeserializeObject<Protocols.Packets.common>(webRequest.downloadHandler.text);
+                    var responseData = JsonConvert.DeserializeObject<ResponseData>(responseText);
+                    GameManager.MyData res2 = JsonConvert.DeserializeObject<GameManager.MyData>(responseText);
+                    GameManager.sendData = res2;
+                    loginStatuText.text = res.message;
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                }
             }
         }
     }
@@ -69,7 +114,16 @@ public class MainButtonManager : MonoBehaviour
             {
                 Debug.Log(webRequest.downloadHandler.text);
                 Protocols.Packets.common res = JsonConvert.DeserializeObject<Protocols.Packets.common>(webRequest.downloadHandler.text);
-                loginStatuText.text = res.message;
+                Debug.Log(res.name_is_null);
+                GameManager.sendData.id = inputField[0].text;
+                if (res.name_is_null)
+                {
+                    name_window.SetActive(true);
+                }
+                else
+                {
+                    loginStatuText.text = res.message;
+                }
             }
             else
             {
@@ -77,8 +131,12 @@ public class MainButtonManager : MonoBehaviour
                 loginStatuText.text = "로그인 성공!";
                 string responseText = webRequest.downloadHandler.text;
                 var responseData = JsonConvert.DeserializeObject<ResponseData>(responseText);
+                GameManager.MyData res = JsonConvert.DeserializeObject<GameManager.MyData>(responseText);
                 token = responseData.token;
-
+                Debug.Log(res);
+                Debug.Log(res.id);
+                Debug.Log(res.player_name);
+                GameManager.sendData = res;
                 if (string.IsNullOrEmpty(token))
                 {
                     Debug.LogError("Token is missing");
@@ -114,7 +172,6 @@ public class MainButtonManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Request 성공" + webRequest.downloadHandler.text);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
@@ -152,6 +209,7 @@ public class MainButtonManager : MonoBehaviour
     private class ResponseData
     {
         public string token;
+        public string id;
     }
     public void StartOrClose()
     {

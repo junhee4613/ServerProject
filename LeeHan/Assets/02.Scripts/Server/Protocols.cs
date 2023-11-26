@@ -10,6 +10,9 @@ public class Protocols  //차근차근 수정할 것
         {
             public int cmd;
             public string message;
+            public bool name_is_null = false;
+            public string id;
+            public string player_name;
         }
         public class req_data : common
         {
