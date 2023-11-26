@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public Action game_over;
     public Action restart;
     public float time;
-
+    UIController UIManager => UIController.instance;
 
     #region 서버와 관련된 것들
     WebSocket webSocket;
@@ -24,12 +24,13 @@ public class GameManager : MonoBehaviour
     const int MaxConnectionAttempts = 3;
     public int loopCount;
     public MyData sendData = new MyData { message = "메세지 보내기" };
+    public float maximum_record = 0;
     [Serializable]
     public class MyData     //JSON 데이터를 위한 클래스
     {
         public string player_name;
         public string id;
-        public float maximum_record = 0;
+        public float my_maximum_record = 0;
         public string clientID;
         public string message;
         public string account_name;
@@ -69,7 +70,8 @@ public class GameManager : MonoBehaviour
         MyData receiveData = JsonConvert.DeserializeObject<MyData>(jsonData);
 
         InfoData infoData = JsonConvert.DeserializeObject<InfoData>(jsonData);
-
+        //여기가 최대 기록 할당 시키는 로직
+        UIManager.maximum_record_text.text = sendData.player_name + ":" + sendData.message;
         if (infoData != null)
         {
             string room = infoData.myParams.room;
@@ -155,18 +157,21 @@ public class GameManager : MonoBehaviour
             time += Time.deltaTime;
         }
     }
-    public void Player_die()
+    public void Destination_Arrival()
     {
-        die = true;
-        Time.timeScale = 0;
         if (webSocket == null || !IsConnected)
         {
             return;
         }
-        if (sendData.maximum_record < time)
+        if (maximum_record < time)
         {
             SendSocketMessage();
         }
+    }
+    public void Player_die()
+    {
+        die = true;
+        Time.timeScale = 0;
     }
     public void Game_restart()
     {
