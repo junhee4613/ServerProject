@@ -3136,8 +3136,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restart_button: {fileID: 7996439891818916014}
-  time_record_text: {fileID: 0}
-  maximum_record_text: {fileID: 0}
+  time_record_text: {fileID: 304374420}
+  maximum_record_text: {fileID: 1111173578}
   heartIcons:
   - {fileID: 1364594345}
   - {fileID: 1158389874}
@@ -8269,8 +8269,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   die: 0
   time: 0
-  maximum_record: 0
   loopCount: 0
+  sendData:
+    player_name: 
+    id: 
+    my_maximum_record: 0
+    clientID: 
+    message: "\uBA54\uC138\uC9C0 \uBCF4\uB0B4\uAE30"
+    account_name: 
+    requestType: 0
+  maximum_record: 0
+  player: {fileID: 0}
+  pos_init: {x: 0, y: 0}
 --- !u!4 &1768690594
 Transform:
   m_ObjectHideFlags: 0

@@ -21,13 +21,13 @@ public class PlayerController : MonoBehaviour
     public float knockbackLength, knockbackSpeed;   //³Ë¹é °Å¸®, ³Ë¹é ½ºÇÇµå
 
     private float knockbackCounter;                 //³Ë¹é Ã¼Å©¿ë
-
-
+    GameManager GameManager => GameManager.instance;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        GameManager.player = this.gameObject;
+        GameManager.pos_init = this.gameObject.transform.position;
     }
 
     // Update is called once per frame

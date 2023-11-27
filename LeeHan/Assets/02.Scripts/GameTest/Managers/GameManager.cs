@@ -122,8 +122,8 @@ public class GameManager : MonoBehaviour
     #endregion
 
 
-    GameObject player;
-    Vector2 pos_init;
+    public GameObject player;
+    public Vector2 pos_init;
     private void Awake()
     {
         if(instance == null)
@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!die)
+        if (!die && !string.IsNullOrEmpty(sendData.id))
         {
             time += Time.deltaTime;
         }
@@ -175,7 +175,9 @@ public class GameManager : MonoBehaviour
     }
     public void Game_restart()
     {
-        //여기에 플레이어 목숨 및 포지션 등등 처음으로 초기화하는 로직 추가해야됨
+        //여기에 플레이어 목숨, 생명력 처음으로 초기화하는 로직 추가해야됨 나머지 내용은 카톡에서 확인
+        UIManager.restart_button.gameObject.SetActive(false);
+        player.SetActive(true);
         time = 0;
         Time.timeScale = 1;
         die = false;
