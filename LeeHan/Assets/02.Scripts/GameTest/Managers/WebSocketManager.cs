@@ -35,7 +35,7 @@ public class WebSocketManager : MonoBehaviour
     }
     void ConnectWebSock()
     {
-        webSocket = new WebSocket("ws://localhost:8000");           //3000포트에 연결
+        webSocket = new WebSocket("wss://port-0-leehan-node-20231014-jvpb2alnb1xslw.sel5.cloudtype.app");           //3000포트에 연결
         webSocket.OnOpen += OnWebSocketOpen;                        //함수 이벤트 등록
         webSocket.OnMessage += OnWebSocketMessage;                        //함수 이벤트 등록
         webSocket.OnClose += OnWebSocketClose;                        //함수 이벤트 등록
