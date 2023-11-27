@@ -25,8 +25,8 @@ public class MainButtonManager : MonoBehaviour
 
     public string token;
 
-    public const string apiUrl = "https://port-0-leehan-node-20231014-jvpb2alnb1xslw.sel5.cloudtype.app";
-    //public const string apiUrl = "http://localhost:3000";
+    //public const string apiUrl = "https://port-0-leehan-node-20231014-jvpb2alnb1xslw.sel5.cloudtype.app";
+    public const string apiUrl = "http://localhost:3000";
 
     public InputField[] inputField;
     // Start is called before the first frame update
