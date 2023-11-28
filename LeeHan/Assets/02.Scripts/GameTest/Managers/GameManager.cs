@@ -17,7 +17,13 @@ public class GameManager : MonoBehaviour
     WebSocketManager Web => WebSocketManager.instance;
 
     #region 서버와 관련된 것들
-    public string maximum_name, maximum_num;
+    [Serializable]
+    public class Maxmum_data 
+    {
+        public string maximum_name = "--";
+        public string maximum_num = "1000";
+    }
+    public Maxmum_data max_data;
     public int loopCount;
     public MyData sendData = new MyData { message = "메세지 보내기" };
     [Serializable]
@@ -25,7 +31,7 @@ public class GameManager : MonoBehaviour
     {
         public string player_name;
         public string id;
-        public float maximum_record = 0;
+        public float maximum_record = 100;
         public string clientID;
         public string message;
         public string account_name;
@@ -81,7 +87,7 @@ public class GameManager : MonoBehaviour
 
     public void Destination_Arrival()
     {
-        if (sendData.maximum_record < time)
+        if (sendData.maximum_record > time)
         {
             Web.SendSocketMessage();
         }

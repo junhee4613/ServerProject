@@ -3,6 +3,8 @@ using System;
 using System.Text;
 using UnityEngine;
 using WebSocketSharp;
+using UnityEngine.Networking;
+using System.Collections;
 
 public class WebSocketManager : MonoBehaviour
 {
@@ -15,6 +17,7 @@ public class WebSocketManager : MonoBehaviour
 
     GameManager GameManager => GameManager.instance;
     public static WebSocketManager instance;
+    public const string apiUrl = "https://port-0-leehan-node-20231014-jvpb2alnb1xslw.sel5.cloudtype.app";
     private void Awake()
     {
         if(instance == null)
@@ -58,14 +61,11 @@ public class WebSocketManager : MonoBehaviour
     {
         string jsonData = Encoding.Default.GetString(e.RawData);
         Debug.Log("Received JSON data : " + jsonData);
-
         GameManager.MyData receiveData = JsonConvert.DeserializeObject<GameManager.MyData>(jsonData);
-
         GameManager.InfoData infoData = JsonConvert.DeserializeObject<GameManager.InfoData>(jsonData);
-        //테스트용@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        Debug.Log(receiveData.maximum_record);
-        GameManager.maximum_name = receiveData.player_name;
-        GameManager.maximum_num = receiveData.maximum_record.ToString("F2");
+        GameManager.max_data.maximum_name = receiveData.player_name;
+        GameManager.max_data.maximum_num = receiveData.maximum_record.ToString("F2");
+        //StartCoroutine(Test());
         UIManager.maximum_record_text.text = receiveData.player_name + ":" + receiveData.maximum_record.ToString("F2");
         
         if (infoData != null)
@@ -79,6 +79,31 @@ public class WebSocketManager : MonoBehaviour
             GameManager.sendData.clientID = receiveData.clientID;
         }
     }
+    /*IEnumerator Test()
+    {
+        Debug.Log("DB에 저장");
+        WWWForm form = new WWWForm();
+        form.AddField("player_name", GameManager.max_data.maximum_name);
+        form.AddField("maximum_record", GameManager.max_data.maximum_num);
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(apiUrl + "/maximum_record", form))
+        {
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result != UnityWebRequest.Result.Success)
+            {
+                Protocols.Packets.common res = JsonConvert.DeserializeObject<Protocols.Packets.common>(webRequest.downloadHandler.text);
+                UIManager.maximum_record_text.text = res.message;
+            }
+            else
+            {
+                string responseText = webRequest.downloadHandler.text;
+                GameManager.Maxmum_data res2 = JsonConvert.DeserializeObject<GameManager.Maxmum_data>(responseText);
+                GameManager.max_data = res2;
+                Debug.Log(GameManager.max_data + "DB에 저장");
+            }
+        }
+    }*/
     void OnWebSocketClose(object sender, CloseEventArgs e)
     {
         Debug.Log("WebSocket connection closed with code: " + e.Code + ", reason: " + e.Reason + "여기");
@@ -111,7 +136,6 @@ public class WebSocketManager : MonoBehaviour
     {
         GameManager.sendData.requestType = 0;
         GameManager.sendData.maximum_record = GameManager.time;
-        Debug.Log(GameManager.sendData.maximum_record + "최대기록");
         string jsonData = JsonConvert.SerializeObject(GameManager.sendData);
         webSocket.Send(jsonData);
 
