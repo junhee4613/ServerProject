@@ -65,6 +65,8 @@ public class PlayerHealthController : MonoBehaviour
                 currentHealth = 0;
                 gameObject.SetActive(false);
                 LifeController.instance.Respawn();      //플레이어 리스폰
+
+
             }
             else
             {
@@ -73,6 +75,9 @@ public class PlayerHealthController : MonoBehaviour
                 thePlayer.KnockBack();
 
                 thePlayer.KnockBack();          //플레이어 넉백
+
+                AudioManager.instance.PlaySFX(13);
+
             }
 
             UIController.instance.UpdateHealthDisplay(currentHealth, maxHealth);
