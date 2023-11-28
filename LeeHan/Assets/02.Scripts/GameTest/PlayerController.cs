@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce; //플레이어 점프
     public float runSpeed;  //플레이어 달리기
     private float activeSpeed;
+    public CapsuleCollider2D cc;
 
     private bool isGrounded;
     public Transform groundCheckPoint;  //플레이어 땅인식
@@ -35,7 +36,10 @@ public class PlayerController : MonoBehaviour
     {
 
         isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, whatIsGround); //플레이어 땅인식
-
+         if(Physics2D.OverlapCapsule(transform.position, cc.size, 0, 0, 1 << 8))
+        {
+            GameManager.Destination_Arrival();
+        }
 
         if (knockbackCounter <= 0)
         {

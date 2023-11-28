@@ -48,12 +48,11 @@ public class LifeController : MonoBehaviour
         if (currentLives > 0)       //목숨이 다 달면 코루틴 실행 X
         {
             StartCoroutine(RespawnCo());
+
         }
         else
         {
-           // GameManager.game_over();
             currentLives = 0;
-
             StartCoroutine(GameOverCo());
         }
         if (UIController.instance != null)
