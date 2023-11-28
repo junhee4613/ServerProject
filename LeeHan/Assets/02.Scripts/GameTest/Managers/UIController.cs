@@ -68,7 +68,6 @@ public class UIController : MonoBehaviour
     public void ShowGameOver()
     {
         GameManager.die = true;
-        
         gameOverScreen.SetActive(true);
     }
 
