@@ -11,8 +11,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public bool die;
-    public Action game_over;
-    public Action restart;
     public float time;
     public string record_scord;
     UIController UIManager => UIController.instance;
@@ -60,8 +58,7 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
         DontDestroyOnLoad(this);
-        game_over += Player_die;
-        restart += Game_restart;
+        
 
     }
     // Start is called before the first frame update
@@ -80,25 +77,10 @@ public class GameManager : MonoBehaviour
         {
             time += Time.deltaTime;
         }
-    }
-    
-    public void Player_die()
-    {
-        die = true;
-        Time.timeScale = 0;
-        //이건 테스트용
         Destination_Arrival();
+
     }
-    public void Game_restart()
-    {
-        //여기에 플레이어 목숨, 생명력 처음으로 초기화하는 로직 추가해야됨 나머지 내용은 카톡에서 확인
-      //  UIManager.restart_button.gameObject.SetActive(false);
-        player.SetActive(true);
-        time = 0;
-        Time.timeScale = 1;
-        die = false;
-        player.transform.position = pos_init;
-    }
+
     public void Destination_Arrival()
     {
         Debug.Log("기록");

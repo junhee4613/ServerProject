@@ -36,8 +36,7 @@ public class WebSocketManager : MonoBehaviour
     {
         try
         {
-            //webSocket = new WebSocket("wss://port-0-leehan-node-20231014-jvpb2alnb1xslw.sel5.cloudtype.app");           //3000포트에 연결
-            webSocket = new WebSocket("wss://localhost:3000");
+            webSocket = new WebSocket("ws://localhost:3000");
             webSocket.OnOpen += OnWebSocketOpen;
             webSocket.OnMessage += OnWebSocketMessage;
             webSocket.OnClose += OnWebSocketClose;
@@ -60,16 +59,13 @@ public class WebSocketManager : MonoBehaviour
         string jsonData = Encoding.Default.GetString(e.RawData);
         Debug.Log("Received JSON data : " + jsonData);
 
-        //JSON 데이터를 객체로 역직렬화
         GameManager.MyData receiveData = JsonConvert.DeserializeObject<GameManager.MyData>(jsonData);
 
         GameManager.InfoData infoData = JsonConvert.DeserializeObject<GameManager.InfoData>(jsonData);
         //테스트용@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         Debug.Log(receiveData.maximum_record);
         UIManager.maximum_record_text.text = receiveData.player_name + ":" + receiveData.maximum_record.ToString("F2");
-
-        //여기가 최대 기록 할당 시키는 로직
-        //UIManager.maximum_record_text.text = GameManager.sendData.player_name + ":" + GameManager.sendData.message;
+        
         if (infoData != null)
         {
             string room = infoData.myParams.room;

@@ -27,8 +27,7 @@ public class UIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-     //   GameManager.game_over += Restart_Button;
-       // restart_button.onClick.AddListener(() => GameManager.restart());
+     
     }
 
     // Update is called once per frame
@@ -36,11 +35,7 @@ public class UIController : MonoBehaviour
     {
 
         time_record_text.text = GameManager.time.ToString("F2") + "초";
-      //  if(restart_button == null)
-      //  {
-        //    Debug.Log("널이다");
-
-      //  }
+     
     }
 
     public void UpdateHealthDisplay(int health , int maxHealth)
@@ -65,13 +60,7 @@ public class UIController : MonoBehaviour
 
         }
     }
-  /* public void Restart_Button()
-    {
-        if(restart_button != null)
-        {
-            restart_button.gameObject.SetActive(true);
-        }
-    }*/
+  
     public void UpdateLivesDisplay(int currentLives)       // 플레이어 목숨 텍스트로 표현 
     {
         livesText.text = currentLives.ToString();
@@ -79,11 +68,14 @@ public class UIController : MonoBehaviour
 
     public void ShowGameOver()
     {
+        GameManager.die = true;
         gameOverScreen.SetActive(true);
     }
 
     public void Restart()
     {
+        GameManager.time = 0;
+        GameManager.die = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
