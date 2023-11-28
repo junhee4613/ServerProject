@@ -36,8 +36,8 @@ public class WebSocketManager : MonoBehaviour
     {
         try
         {
-            webSocket = new WebSocket("ws://port-0-leehan-node-20231014-jvpb2alnb1xslw.sel5.cloudtype.app");           //3000포트에 연결
-            //webSocket = new WebSocket("ws://localhost:3000");
+            //webSocket = new WebSocket("wss://port-0-leehan-node-20231014-jvpb2alnb1xslw.sel5.cloudtype.app");           //3000포트에 연결
+            webSocket = new WebSocket("wss://localhost:3000");
             webSocket.OnOpen += OnWebSocketOpen;
             webSocket.OnMessage += OnWebSocketMessage;
             webSocket.OnClose += OnWebSocketClose;
@@ -84,7 +84,6 @@ public class WebSocketManager : MonoBehaviour
     void OnWebSocketClose(object sender, CloseEventArgs e)
     {
         Debug.Log("WebSocket connection closed with code: " + e.Code + ", reason: " + e.Reason + "여기");
-        Debug.Log("WebSocket connection closed");
         IsConnected = false;
 
         if (ConnectionAttempt < MaxConnectionAttempts)
