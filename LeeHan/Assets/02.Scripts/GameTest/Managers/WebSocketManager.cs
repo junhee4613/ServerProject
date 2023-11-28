@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using WebSocketSharp;
-using System.Text;
 using Newtonsoft.Json;
 using System;
+using System.Text;
+using UnityEngine;
+using WebSocketSharp;
 
 public class WebSocketManager : MonoBehaviour
 {
@@ -36,10 +34,10 @@ public class WebSocketManager : MonoBehaviour
     }
     void ConnectWebSock()
     {
-        //webSocket = new WebSocket("wss://port-0-leehan-node-20231014-jvpb2alnb1xslw.sel5.cloudtype.app");           //3000포트에 연결
         try
         {
-            webSocket = new WebSocket("wss://localhost:3000");
+            webSocket = new WebSocket("ws://port-0-leehan-node-20231014-jvpb2alnb1xslw.sel5.cloudtype.app");           //3000포트에 연결
+            //webSocket = new WebSocket("ws://localhost:3000");
             webSocket.OnOpen += OnWebSocketOpen;
             webSocket.OnMessage += OnWebSocketMessage;
             webSocket.OnClose += OnWebSocketClose;
@@ -119,6 +117,7 @@ public class WebSocketManager : MonoBehaviour
         Debug.Log(GameManager.sendData.maximum_record + "최대기록");
         string jsonData = JsonConvert.SerializeObject(GameManager.sendData);
         webSocket.Send(jsonData);
+
     }
     
 }
