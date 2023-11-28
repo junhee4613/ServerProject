@@ -77,13 +77,10 @@ public class GameManager : MonoBehaviour
         {
             time += Time.deltaTime;
         }
-        Destination_Arrival();
-
     }
 
     public void Destination_Arrival()
     {
-        Debug.Log("±â·Ï");
         if (sendData.maximum_record < time)
         {
             Web.SendSocketMessage();

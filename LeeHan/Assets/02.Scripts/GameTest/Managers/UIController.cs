@@ -33,9 +33,7 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         time_record_text.text = GameManager.time.ToString("F2") + "√ ";
-     
     }
 
     public void UpdateHealthDisplay(int health , int maxHealth)

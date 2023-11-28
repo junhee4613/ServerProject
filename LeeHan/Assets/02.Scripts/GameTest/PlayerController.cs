@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public float runSpeed;  //플레이어 달리기
     private float activeSpeed;
     public CapsuleCollider2D cc;
-
+    private bool goal = false;
     private bool isGrounded;
     public Transform groundCheckPoint;  //플레이어 땅인식
     public float groundCheckRadius;     //플레이어 땅인식 범위
@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
     private float knockbackCounter;                 //넉백 체크용
     GameManager GameManager => GameManager.instance;
+    UIController UI => UIController.instance;
 
     // Start is called before the first frame update
     void Start()
@@ -36,8 +37,11 @@ public class PlayerController : MonoBehaviour
     {
 
         isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, whatIsGround); //플레이어 땅인식
-         if(Physics2D.OverlapCapsule(transform.position, cc.size, 0, 0, 1 << 8))
+        if(Physics2D.OverlapCapsule(transform.position, cc.size, CapsuleDirection2D.Vertical, 0, 1 << 8) && !goal)
         {
+            goal = true;
+            Debug.Log("기록 갱신");
+            UI.ShowGameOver();
             GameManager.Destination_Arrival();
         }
 
