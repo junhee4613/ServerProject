@@ -24,6 +24,7 @@ public class UIController : MonoBehaviour
     public TMP_Text livesText;
 
     public GameObject gameOverScreen;
+    public TMP_Text ending_window_text;
     // Start is called before the first frame update
     void Start()
     {
@@ -67,6 +68,7 @@ public class UIController : MonoBehaviour
     public void ShowGameOver()
     {
         GameManager.die = true;
+        
         gameOverScreen.SetActive(true);
     }
 

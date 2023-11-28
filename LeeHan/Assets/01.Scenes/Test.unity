@@ -5851,6 +5851,7 @@ MonoBehaviour:
   heartEmpty: {fileID: -4390673095631447188, guid: 990cbe8893c036041b2190664485e2e2, type: 3}
   livesText: {fileID: 1128853718}
   gameOverScreen: {fileID: 202323588}
+  ending_window_text: {fileID: 1515797918}
 --- !u!1 &1364594343
 GameObject:
   m_ObjectHideFlags: 0
@@ -11103,7 +11104,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 16
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0

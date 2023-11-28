@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
         {
             goal = true;
             Debug.Log("기록 갱신");
+            UI.ending_window_text.text = "Finish";
             UI.ShowGameOver();
             GameManager.Destination_Arrival();
         }

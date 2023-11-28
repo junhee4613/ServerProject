@@ -10,7 +10,7 @@ public class LifeController : MonoBehaviour
     {
         instance = this;
     }
-
+    UIController UI => UIController.instance;
     private PlayerController thePlayer;
 
     public float respawnDelay = 2f;     //리스폰 딜레이 시간
@@ -81,6 +81,7 @@ public class LifeController : MonoBehaviour
 
         if (UIController.instance != null)
         {
+            UI.ending_window_text.text = "Game over";
             UIController.instance.ShowGameOver();
         }
     }
