@@ -67,7 +67,7 @@ public class MainButtonManager : MonoBehaviour
         else
         {
             WWWForm form = new WWWForm();
-            form.AddField("id", GameManager.sendData.id);
+            form.AddField("id", inputField[0].text);
             form.AddField("player_name", player_name_field.text) ;
 
             using (UnityWebRequest webRequest = UnityWebRequest.Post(apiUrl + "/LeeHan/name_decide", form))
@@ -77,7 +77,7 @@ public class MainButtonManager : MonoBehaviour
                 if (webRequest.result != UnityWebRequest.Result.Success)
                 {
                     Protocols.Packets.common res = JsonConvert.DeserializeObject<Protocols.Packets.common>(webRequest.downloadHandler.text);
-                    loginStatuText.text = res.message;
+                    player_name_status.text = res.message;
                 }
                 else
                 {
@@ -86,8 +86,8 @@ public class MainButtonManager : MonoBehaviour
                     var responseData = JsonConvert.DeserializeObject<ResponseData>(responseText);
                     GameManager.MyData res2 = JsonConvert.DeserializeObject<GameManager.MyData>(responseText);
                     GameManager.sendData = res2;
-                    loginStatuText.text = res.message;
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                    player_name_status.text = res.message;
+                    name_window.SetActive(false);
                 }
             }
         }
@@ -116,14 +116,7 @@ public class MainButtonManager : MonoBehaviour
                 Protocols.Packets.common res = JsonConvert.DeserializeObject<Protocols.Packets.common>(webRequest.downloadHandler.text);
                 Debug.Log(res.name_is_null);
                 GameManager.sendData.id = inputField[0].text;
-                if (res.name_is_null)
-                {
-                    name_window.SetActive(true);
-                }
-                else
-                {
-                    loginStatuText.text = res.message;
-                }
+                loginStatuText.text = res.message;
             }
             else
             {
@@ -200,6 +193,10 @@ public class MainButtonManager : MonoBehaviour
                 Protocols.Packets.common res = JsonConvert.DeserializeObject<Protocols.Packets.common>(webRequest.downloadHandler.text);
                 var responseData = JsonConvert.DeserializeObject<ResponseData>(responseText);
                 loginStatuText.text = res.message;
+                if (res.name_is_null)
+                {
+                    name_window.SetActive(true);
+                }
             }
         }
     }

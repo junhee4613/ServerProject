@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     WebSocketManager Web => WebSocketManager.instance;
 
     #region 서버와 관련된 것들
-    
+    public string maximum_name, maximum_num;
     public int loopCount;
     public MyData sendData = new MyData { message = "메세지 보내기" };
     [Serializable]

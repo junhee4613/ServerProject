@@ -28,7 +28,7 @@ public class UIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-     
+        maximum_record_text.text = GameManager.maximum_name+ ":" + GameManager.maximum_num;
     }
 
     // Update is called once per frame

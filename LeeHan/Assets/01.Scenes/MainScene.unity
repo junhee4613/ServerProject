@@ -774,16 +774,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   die: 0
   time: 0
+  record_scord: 
+  maximum_name: 
+  maximum_num: 
   loopCount: 0
   sendData:
     player_name: 
     id: 
-    my_maximum_record: 0
+    maximum_record: 0
     clientID: 
     message: "\uBA54\uC138\uC9C0 \uBCF4\uB0B4\uAE30"
     account_name: 
     requestType: 0
-  maximum_record: 0
+  player: {fileID: 0}
+  pos_init: {x: 0, y: 0}
 --- !u!4 &453623969
 Transform:
   m_ObjectHideFlags: 0
@@ -2230,19 +2234,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1034458154}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2086370077}
-        m_TargetAssemblyTypeName: MainButtonManager, Assembly-CSharp
-        m_MethodName: Login
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1034458154
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -64,6 +64,8 @@ public class WebSocketManager : MonoBehaviour
         GameManager.InfoData infoData = JsonConvert.DeserializeObject<GameManager.InfoData>(jsonData);
         //테스트용@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         Debug.Log(receiveData.maximum_record);
+        GameManager.maximum_name = receiveData.player_name;
+        GameManager.maximum_num = receiveData.maximum_record.ToString("F2");
         UIManager.maximum_record_text.text = receiveData.player_name + ":" + receiveData.maximum_record.ToString("F2");
         
         if (infoData != null)
