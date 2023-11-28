@@ -20,6 +20,12 @@ public class LifeController : MonoBehaviour
     void Start()
     {
         thePlayer = FindFirstObjectByType<PlayerController>();
+
+        if (UIController.instance != null)
+        {
+            UIController.instance.UpdateLivesDisplay(currentLives); //플레이어 목숨 텍스트
+
+        }
     }
 
     // Update is called once per frame
@@ -45,11 +51,16 @@ public class LifeController : MonoBehaviour
         }
         else
         {
-            GameManager.game_over();
+           // GameManager.game_over();
             currentLives = 0;
-        }
 
-        UIController.instance.UpdateLivesDisplay(currentLives); //플레이어 목숨 텍스트
+            StartCoroutine(GameOverCo());
+        }
+        if (UIController.instance != null)
+        {
+            UIController.instance.UpdateLivesDisplay(currentLives); //플레이어 목숨 텍스트
+
+        }
     }
 
     public IEnumerator RespawnCo()
@@ -62,4 +73,15 @@ public class LifeController : MonoBehaviour
 
         thePlayer.gameObject.SetActive(true);
     }
+
+    public IEnumerator GameOverCo()
+    {
+        yield return new WaitForSeconds(respawnDelay);
+
+        if (UIController.instance != null)
+        {
+            UIController.instance.ShowGameOver();
+        }
+    }
+
 }

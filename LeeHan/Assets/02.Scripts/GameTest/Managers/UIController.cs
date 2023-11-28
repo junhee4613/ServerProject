@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
     public static UIController instance;
-    public Button restart_button;
+  //  public Button restart_button;
     public Text time_record_text;
     public Text maximum_record_text;
     GameManager GameManager => GameManager.instance;
@@ -21,11 +22,13 @@ public class UIController : MonoBehaviour
     public Sprite heartFull, heartEmpty;
 
     public TMP_Text livesText;
+
+    public GameObject gameOverScreen;
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.game_over += Restart_Button;
-        restart_button.onClick.AddListener(() => GameManager.restart());
+     //   GameManager.game_over += Restart_Button;
+       // restart_button.onClick.AddListener(() => GameManager.restart());
     }
 
     // Update is called once per frame
@@ -33,11 +36,11 @@ public class UIController : MonoBehaviour
     {
 
         time_record_text.text = GameManager.time.ToString("F2") + "초";
-        if(restart_button == null)
-        {
-            Debug.Log("널이다");
+      //  if(restart_button == null)
+      //  {
+        //    Debug.Log("널이다");
 
-        }
+      //  }
     }
 
     public void UpdateHealthDisplay(int health , int maxHealth)
@@ -62,16 +65,26 @@ public class UIController : MonoBehaviour
 
         }
     }
-    public void Restart_Button()
+  /* public void Restart_Button()
     {
         if(restart_button != null)
         {
             restart_button.gameObject.SetActive(true);
         }
-    }
+    }*/
     public void UpdateLivesDisplay(int currentLives)       // 플레이어 목숨 텍스트로 표현 
     {
         livesText.text = currentLives.ToString();
+    }
+
+    public void ShowGameOver()
+    {
+        gameOverScreen.SetActive(true);
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 }

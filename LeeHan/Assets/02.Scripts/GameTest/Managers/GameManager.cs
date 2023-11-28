@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
     public void Game_restart()
     {
         //여기에 플레이어 목숨, 생명력 처음으로 초기화하는 로직 추가해야됨 나머지 내용은 카톡에서 확인
-        UIManager.restart_button.gameObject.SetActive(false);
+      //  UIManager.restart_button.gameObject.SetActive(false);
         player.SetActive(true);
         time = 0;
         Time.timeScale = 1;
