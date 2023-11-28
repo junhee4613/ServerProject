@@ -60,6 +60,8 @@ public class LifeController : MonoBehaviour
             UIController.instance.UpdateLivesDisplay(currentLives); //플레이어 목숨 텍스트
 
         }
+        AudioManager.instance.PlaySFX(11);
+
     }
 
     public IEnumerator RespawnCo()
